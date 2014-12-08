@@ -54,8 +54,9 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
   };
 
   private static class MyMapper extends Mapper<LongWritable, WikipediaPage, Text, Text> {
-    private static final Text articleName = new Text();
-    private static final Text articleContent = new Text();
+    private static final Text articleId = new Text();
+    private static final Text articleTitleAndContent = new Text();
+
 
     @Override
     public void map(LongWritable key, WikipediaPage p, Context context)
@@ -75,10 +76,14 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
           context.getCounter(PageTypes.STUB).increment(1);
         }
 
-        articleName.set(p.getTitle().replaceAll("[\\r\\n]+", " "));
-        articleContent.set(p.getContent().replaceAll("[\\r\\n]+", " "));
+        articleId.set(p.getDocid());
+        articleTitleAndContent.set(
+          p.getTitle().replaceAll("[\\r\\n]+", " ")
+          + "\t"
+          + p.getContent().replaceAll("[\\r\\n]+", " ")
+        );
 
-        context.write(articleName, articleContent);
+        context.write(articleId, articleTitleAndContent);
       } else {
         context.getCounter(PageTypes.OTHER).increment(1);
       }

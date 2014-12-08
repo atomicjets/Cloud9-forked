@@ -127,7 +127,7 @@
   </target>
 
   <target name="jar" depends="compile" description="generate the distribution">
-    <jar jarfile="${dist.dir}/cloud9-${version}.jar" basedir="${build.dir}" />
+    <jar jarfile="${dist.dir}/cloud9-${version}-klout.jar" basedir="${build.dir}" />
   </target>
 
   <target name="dist" depends="jar,javadoc" description="generate the distribution">
