@@ -45,6 +45,7 @@ import org.apache.log4j.Logger;
  *
  * @author Jimmy Lin
  * @author Peter Exner
+ * @author Gaurav Ragtah (gaurav.ragtah@lithium.com)
  */
 public class DumpWikipediaToPlainText extends Configured implements Tool {
   private static final Logger LOG = Logger.getLogger(DumpWikipediaToPlainText.class);
@@ -102,8 +103,8 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
         .withDescription("XML dump file").create(INPUT_OPTION));
     options.addOption(OptionBuilder.withArgName("path").hasArg()
         .withDescription("output path").create(OUTPUT_OPTION));
-    options.addOption(OptionBuilder.withArgName("en|sv|de|cs|es|zh|ar|tr").hasArg()
-        .withDescription("two-letter language code").create(LANGUAGE_OPTION));
+    options.addOption(OptionBuilder.withArgName("en|sv|nl|de|fr|ru|it|es|vi|pl|ja|pt|zh|uk|ca|fa|no|fi|id|ar|sr|ko|hi|zh_yue|cs|tr").hasArg()
+        .withDescription("two-letter or six-letter language code").create(LANGUAGE_OPTION));
 
     CommandLine cmdline;
     CommandLineParser parser = new GnuParser();
@@ -124,7 +125,7 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
     String language = "en"; // Assume "en" by default.
     if (cmdline.hasOption(LANGUAGE_OPTION)) {
       language = cmdline.getOptionValue(LANGUAGE_OPTION);
-      if (language.length() != 2) {
+      if(!(language.length() == 2 || language.length() == 6)){
         System.err.println("Error: \"" + language + "\" unknown language!");
         return -1;
       }

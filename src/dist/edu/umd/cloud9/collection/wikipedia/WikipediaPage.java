@@ -411,6 +411,9 @@ public abstract class WikipediaPage extends Indexable {
       }
     });
   }
+  public List<String> extractLinkDestinations() {
+    return extractLinkTargets();
+  }
 
   /**
    * Reads a raw XML string into a <code>WikipediaPage</code> object.
