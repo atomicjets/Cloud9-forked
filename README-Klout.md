@@ -8,4 +8,8 @@ Instructions for building the Klout Cloud9 jar:
 2. cd ~/dev/Cloud9-forked/
 3. git pull -r
 4. ant
-5. sudo cp dist/*.jar /home/research/lib/
+5. sudo cp dist/cloud9-1.5.0-klout.jar /home/research/lib/
+
+Also copy to Thunder at ~/thunder/lib/, and to hdfs at /user/thunder/hive_data_store/lib/
+
+NOTE: Build using Java 1.6 since we were having issues with 1.7. Built on sci1 box since it has the right java version for compiling this jar.
