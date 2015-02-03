@@ -35,7 +35,7 @@ public class CantoneseWikipediaPage extends WikipediaPage {
   private static final String IDENTIFIER_REDIRECTION_LOWERCASE = "#redirect";
   private static final String IDENTIFIER_STUB_TEMPLATE = "stub}}";
   private static final String IDENTIFIER_STUB_WIKIPEDIA_NAMESPACE = "Wikipedia:Stub";
-  private static final Pattern disambPattern = Pattern.compile("\\{\\{\u641E\u6E05\u695A\\}\\}", Pattern.CASE_INSENSITIVE);
+  protected static final Pattern disambPattern = Pattern.compile("\\{\\{\u641E\u6E05\u695A\\}\\}", Pattern.CASE_INSENSITIVE);
   private static final String LANGUAGE_CODE = "zh_yue";
 
   /**

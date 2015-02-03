@@ -35,7 +35,7 @@ public class JapaneseWikipediaPage extends WikipediaPage {
   private static final String IDENTIFIER_REDIRECTION_LOWERCASE = "#redirect";
   private static final String IDENTIFIER_STUB_TEMPLATE = "stub}}";
   private static final String IDENTIFIER_STUB_WIKIPEDIA_NAMESPACE = "Wikipedia:Stub";
-  private static final Pattern disambPattern = Pattern.compile("\\{\\{\u66D6\u6627\u3055\u56DE\u907F\\}\\}", Pattern.CASE_INSENSITIVE);
+  protected static final Pattern disambPattern = Pattern.compile("\\{\\{\u66D6\u6627\u3055\u56DE\u907F\\}\\}", Pattern.CASE_INSENSITIVE);
   private static final String LANGUAGE_CODE = "ja";
 
   /**

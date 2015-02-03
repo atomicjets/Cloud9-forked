@@ -35,7 +35,7 @@ public class HindiWikipediaPage extends WikipediaPage {
   private static final String IDENTIFIER_REDIRECTION_LOWERCASE = "#redirect";
   private static final String IDENTIFIER_STUB_TEMPLATE = "stub}}";
   private static final String IDENTIFIER_STUB_WIKIPEDIA_NAMESPACE = "Wikipedia:Stub";
-  private static final Pattern disambPattern = Pattern.compile("\\{\\{\u092C\u0939\u0941\u0935\u093F\u0915\u0932\u094D\u092A\u0940 \u0936\u092C\u094D\u0926\\}\\}", Pattern.CASE_INSENSITIVE);
+  protected static final Pattern disambPattern = Pattern.compile("\\{\\{\u092C\u0939\u0941\u0935\u093F\u0915\u0932\u094D\u092A\u0940 \u0936\u092C\u094D\u0926\\}\\}", Pattern.CASE_INSENSITIVE);
   private static final String LANGUAGE_CODE = "hi";
 
   /**

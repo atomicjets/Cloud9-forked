@@ -35,7 +35,7 @@ public class SerbianWikipediaPage extends WikipediaPage {
   private static final String IDENTIFIER_REDIRECTION_LOWERCASE = "#redirect";
   private static final String IDENTIFIER_STUB_TEMPLATE = "stub}}";
   private static final String IDENTIFIER_STUB_WIKIPEDIA_NAMESPACE = "Wikipedia:Stub";
-  private static final Pattern disambPattern = Pattern.compile("\\{\\{\u0412\u0438\u0448\u0435\u0437\u043D\u0430\u0447\u043D\u0430 \u043E\u0434\u0440\u0435\u0434\u043D\u0438\u0446\u0430|\u0412\u0437\u043E\\}\\}", Pattern.CASE_INSENSITIVE);
+  protected static final Pattern disambPattern = Pattern.compile("\\{\\{\u0412\u0438\u0448\u0435\u0437\u043D\u0430\u0447\u043D\u0430 \u043E\u0434\u0440\u0435\u0434\u043D\u0438\u0446\u0430|\u0412\u0437\u043E\\}\\}", Pattern.CASE_INSENSITIVE);
   private static final String LANGUAGE_CODE = "sr";
 
   /**

@@ -102,6 +102,7 @@ public abstract class WikipediaPage extends Indexable {
   protected boolean isStub;
   protected boolean isArticle;
   protected String language;
+  protected static final Pattern disambPattern = null;
 
   private WikiModel wikiModel;
   private PlainTextConverter textConverter;
@@ -149,6 +150,10 @@ public abstract class WikipediaPage extends Indexable {
 
   public String getLanguage() {
     return this.language;
+  }
+
+  public Pattern getDisambPattern() {
+    return disambPattern;
   }
 
   // Explictly remove <ref>...</ref>, because there are screwy things like this:
