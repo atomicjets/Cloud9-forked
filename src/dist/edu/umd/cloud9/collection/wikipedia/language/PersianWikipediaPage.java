@@ -35,7 +35,7 @@ public class PersianWikipediaPage extends WikipediaPage {
   private static final String IDENTIFIER_REDIRECTION_LOWERCASE = "#redirect";
   private static final String IDENTIFIER_STUB_TEMPLATE = "stub}}";
   private static final String IDENTIFIER_STUB_WIKIPEDIA_NAMESPACE = "Wikipedia:Stub";
-  private static final Pattern disambPattern = Pattern.compile("\\{\\{\u0627\u0628\u0647\u0627\u0645\u200C\u0632\u062F\u0627\u06CC\u06CC\\}\\}", Pattern.CASE_INSENSITIVE);
+  protected static final Pattern DISAMB_PATTERN = Pattern.compile("\\{\\{\u0627\u0628\u0647\u0627\u0645\u200C\u0632\u062F\u0627\u06CC\u06CC\\}\\}", Pattern.CASE_INSENSITIVE);
   private static final String LANGUAGE_CODE = "fa";
 
   /**
@@ -67,6 +67,8 @@ public class PersianWikipediaPage extends WikipediaPage {
     // parse out actual text of article
     this.textStart = s.indexOf(XML_START_TAG_TEXT);
     this.textEnd = s.indexOf(XML_END_TAG_TEXT, this.textStart);
+
+    this.disambPattern = DISAMB_PATTERN;
 
     // determine if article is a disambiguation, redirection, and/or stub page.
     Matcher matcher = disambPattern.matcher(page);
