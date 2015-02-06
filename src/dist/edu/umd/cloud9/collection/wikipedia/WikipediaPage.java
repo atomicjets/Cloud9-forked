@@ -102,7 +102,7 @@ public abstract class WikipediaPage extends Indexable {
   protected boolean isStub;
   protected boolean isArticle;
   protected String language;
-  protected static final Pattern disambPattern = null;
+  protected Pattern disambPattern;
 
   private WikiModel wikiModel;
   private PlainTextConverter textConverter;

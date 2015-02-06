@@ -35,7 +35,7 @@ public class PolishWikipediaPage extends WikipediaPage {
   private static final String IDENTIFIER_REDIRECTION_LOWERCASE = "#redirect";
   private static final String IDENTIFIER_STUB_TEMPLATE = "stub}}";
   private static final String IDENTIFIER_STUB_WIKIPEDIA_NAMESPACE = "Wikipedia:Stub";
-  protected static final Pattern disambPattern = Pattern.compile("\\{\\{ujednoznacznienie\\}\\}", Pattern.CASE_INSENSITIVE);
+  protected static final Pattern DISAMB_PATTERN = Pattern.compile("\\{\\{ujednoznacznienie\\}\\}", Pattern.CASE_INSENSITIVE);
   private static final String LANGUAGE_CODE = "pl";
 
   /**
@@ -67,6 +67,8 @@ public class PolishWikipediaPage extends WikipediaPage {
     // parse out actual text of article
     this.textStart = s.indexOf(XML_START_TAG_TEXT);
     this.textEnd = s.indexOf(XML_END_TAG_TEXT, this.textStart);
+
+    this.disambPattern = DISAMB_PATTERN;
 
     // determine if article is a disambiguation, redirection, and/or stub page.
     Matcher matcher = disambPattern.matcher(page);
