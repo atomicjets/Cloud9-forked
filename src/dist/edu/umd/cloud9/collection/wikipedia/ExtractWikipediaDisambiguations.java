@@ -72,18 +72,20 @@ public class ExtractWikipediaDisambiguations extends Configured implements Tool 
         ArrayList<String> wikiTitleList = new ArrayList<String>();
         Text title = new Text();
         Text similarTitles = new Text();
+        title.clear();
+        similarTitles.clear();
 
         String wikiText = p.getWikiMarkup();
-
-        // Find 'See also' section and truncate it - related but not ambiguous terms
-        int seeAlsoSectionStart = wikiText.indexOf("See also");
-        if (seeAlsoSectionStart >= 0)
-          wikiText = wikiText.substring(0,seeAlsoSectionStart);
 
         if (wikiText == null) {
           context.getCounter(WikiDisambiguationMapper.class.getSimpleName(), "NULL_WIKITEXT").increment(1);
           return;
         }
+
+        // Find 'See also' section and truncate it - related but not ambiguous terms
+        int seeAlsoSectionStart = wikiText.indexOf("See also");
+        if (seeAlsoSectionStart >= 0)
+          wikiText = wikiText.substring(0,seeAlsoSectionStart);
 
         // The way the some entities are encoded, we have to unescape twice.
         wikiText = StringEscapeUtils.unescapeHtml(StringEscapeUtils.unescapeHtml(wikiText));
@@ -102,7 +104,8 @@ public class ExtractWikipediaDisambiguations extends Configured implements Tool 
 
         // Extract the ambiguous entity from the disambiguation article title.
         // Eg. Apple_Store_(disambiguation) to Apple Store
-        String ambiguousTitle = disambMatcher.matcher(p.getTitle()).replaceAll(SINGLE_SPACE).replaceAll("_", SINGLE_SPACE).toLowerCase().trim();
+        String ambiguousTitle = disambMatcher.matcher(p.getTitle()).replaceAll(SINGLE_SPACE).replaceAll("_", SINGLE_SPACE).trim();
+        title.set(ambiguousTitle);
 
         Matcher wikiTitleMatcher = WIKI_TITLE.matcher(wikiText);
         while (wikiTitleMatcher.find()) {
@@ -110,32 +113,25 @@ public class ExtractWikipediaDisambiguations extends Configured implements Tool 
 
           // Only pick in-text titles that are not disambiguations and contain the current page's ambiguous title.
           // Eg. From the Apple disambiguation page, pick [[Apple Inc.]] and [[Big Apple]] but not [[Big Apple (disambiguation)]] or [[Apel (disambiguation)]]
-          if (!disambMatcher.matcher(wikiTitle).find() && wikiTitle.toLowerCase().contains(ambiguousTitle)) {
+          if (!disambMatcher.matcher(wikiTitle).find()) {
             // To handle duplication like [[Alien (Britney Spears song)|"Alien" (Britney Spears song)]] in the same in-text title
             wikiTitle = WIKI_TITLE_DUPLICATED.matcher(wikiTitle).replaceAll(SINGLE_SPACE).trim();
             wikiTitleList.add(wikiTitle);
           }
         }
 
+        String similarTitlesStr = "";
         String[] wikiTitles = wikiTitleList.toArray(new String[wikiTitleList.size()]);
+
         for (int i = 0; i < wikiTitles.length; i++) {
-          title.clear();
-          similarTitles.clear();
-          title.set(wikiTitles[i]);
-          String similarTitlesStr = "";
-
-          for (int j = 0; j < wikiTitles.length; j++) {
-            if (i == j || wikiTitles[j].isEmpty()) continue;
-            similarTitlesStr += wikiTitles[j];
-            if (j < wikiTitles.length - 1) similarTitlesStr += '\002';
-          }
-
-          if (!similarTitlesStr.isEmpty()) {
-            similarTitles.set(similarTitlesStr);
-            context.write(title, similarTitles);
-          }
+          if (!wikiTitles[i].isEmpty()) similarTitlesStr += wikiTitles[i];
+          if (i < wikiTitles.length - 1) similarTitlesStr += '\002';
         }
 
+        if (!similarTitlesStr.isEmpty()) {
+          similarTitles.set(similarTitlesStr);
+            context.write(title, similarTitles);
+        }
       } else if (p.isArticle()) {
         context.getCounter(PageTypes.ARTICLE).increment(1);
         if (p.isStub()) {
