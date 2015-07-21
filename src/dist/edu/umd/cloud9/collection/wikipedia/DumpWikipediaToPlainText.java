@@ -80,13 +80,20 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
         }
 
         System.out.println("Processing : " + p.getDocid() +  " via " + contentFormat);
+<<<<<<< HEAD
         articleId.set(p.getDocid());
         if (contentFormat == null || contentFormat.equals("HTML")) {
+=======
+        boolean htmlOut = contentFormat != null && contentFormat.equals("HTML");
+        articleId.set(p.getDocid());
+        if (!htmlOut) {
+>>>>>>> Small fix.
           articleTitleAndContent.set(
               p.getTitle().replaceAll("[\\r\\n]+", " ")
                   + "\t"
                   + p.getContent().replaceAll("[\\r\\n]+", " ")
           );
+<<<<<<< HEAD
         } else if (contentFormat.equals("HTML")) {
           articleTitleAndContent.set(p.getDisplayContent().replaceAll("[\\r\\n\\t]+", " "));
         } else if (contentFormat.equals("WIKI")) {
@@ -95,6 +102,10 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
               " {{Wiki Title|" + p.getTitle() + "}}" +
               " {{Wiki Page Id|" + p.getDocid() + "}}"
           );
+=======
+        } else {
+          articleTitleAndContent.set(p.getDisplayContent().replaceAll("[\\r\\n\\t]+", " "));
+>>>>>>> Small fix.
         }
 
 
@@ -121,8 +132,13 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
         .withDescription("output path").create(OUTPUT_OPTION));
     options.addOption(OptionBuilder.withArgName("en|sv|nl|de|fr|ru|it|es|vi|pl|ja|pt|zh|uk|ca|fa|no|fi|id|ar|sr|ko|hi|zh_yue|cs|tr").hasArg()
         .withDescription("two-letter or six-letter language code").create(LANGUAGE_OPTION));
+<<<<<<< HEAD
     options.addOption(OptionBuilder.withArgName("TEXT|HTML|WIKI").hasArg()
         .withDescription("Output Content Type TEXT, HTML, WIKI").create(CONTENT_FORMAT_OPTION));
+=======
+    options.addOption(OptionBuilder.withArgName("TEXT|HTML").hasArg()
+        .withDescription("Output Content Type TEXT, HTML").create(CONTENT_FORMAT_OPTION));
+>>>>>>> Small fix.
 
     CommandLine cmdline;
     CommandLineParser parser = new GnuParser();
@@ -152,9 +168,13 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
     String contentFormat = "TEXT"; // Assume "TEXT" by default.
     if (cmdline.hasOption(CONTENT_FORMAT_OPTION)) {
       contentFormat = cmdline.getOptionValue(CONTENT_FORMAT_OPTION);
+<<<<<<< HEAD
       if (!contentFormat.equals("TEXT") &&
           !contentFormat.equals("HTML") &&
           !contentFormat.equals("WIKI")) {
+=======
+      if (contentFormat !=  "TEXT" && contentFormat !=  "HTML"){
+>>>>>>> Small fix.
         System.err.println("Error: \"" + contentFormat + "\" unknown content type!");
         return -1;
       }
@@ -169,7 +189,8 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
     LOG.info(" - language     : " + language);
     LOG.info(" - content_type : " + contentFormat);
 
-    Job job = Job.getInstance(getConf());
+    Configuration conf = getConf();
+    Job job = Job.getInstance(conf);
     job.setJarByClass(DumpWikipediaToPlainText.class);
     job.setJobName(String.format("DumpWikipediaToPlainText[%s: %s, %s: %s, %s: %s]", INPUT_OPTION,
         inputPath, OUTPUT_OPTION, outputPath, LANGUAGE_OPTION, language));
@@ -183,7 +204,11 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
       job.getConfiguration().set("wiki.language", language);
     }
     if (contentFormat != null) {
+<<<<<<< HEAD
       job.getConfiguration().set("wiki.content_format", contentFormat);
+=======
+      conf.set("wiki.content_format", contentFormat);
+>>>>>>> Small fix.
     }
     job.setInputFormatClass(WikipediaPageInputFormat.class);
     job.setOutputFormatClass(TextOutputFormat.class);
@@ -209,10 +234,18 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
 }
 
 /**
+<<<<<<< HEAD
  Example of how to run this utility:
 
  ssh <herever lib is >
  cd ~/test_lib_cloud9/
+=======
+ *
+ * scp thunder@jobs-aa-sched1:~/thunder/bin/scripts/r_wikipedia.sh klout@sci1:~/bin/
+ \
+ ssh klout@sci1
+ cd /home/research/lib
+>>>>>>> Small fix.
 
  LANGUAGE=en
  hadoop jar cloud9-1.5.0-klout.jar \
@@ -221,6 +254,10 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
    -input /data/prod/inputs/wikipedia/20150716/xmldump/${LANGUAGE}wiki-latest-pages-articles.xml \
    -output /data/hive/research/test_wiki_text/20150716/${LANGUAGE} \
    -wiki_language $LANGUAGE \
+<<<<<<< HEAD
    -content_format=WIKI
+=======
+   -content_format=HTML
+>>>>>>> Small fix.
 
  */
