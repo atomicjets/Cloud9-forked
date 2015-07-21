@@ -25,6 +25,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -62,6 +63,7 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
     @Override
     public void map(LongWritable key, WikipediaPage p, Context context)
         throws IOException, InterruptedException {
+      String contentFormat = context.getConfiguration().get("wiki.content_format");
       context.getCounter(PageTypes.TOTAL).increment(1);
 
       if (p.isRedirect()) {
@@ -77,12 +79,24 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
           context.getCounter(PageTypes.STUB).increment(1);
         }
 
+        System.out.println("Processing : " + p.getDocid() +  " via " + contentFormat);
         articleId.set(p.getDocid());
-        articleTitleAndContent.set(
-          p.getTitle().replaceAll("[\\r\\n]+", " ")
-          + "\t"
-          + p.getContent().replaceAll("[\\r\\n]+", " ")
-        );
+        if (contentFormat == null || contentFormat.equals("HTML")) {
+          articleTitleAndContent.set(
+              p.getTitle().replaceAll("[\\r\\n]+", " ")
+                  + "\t"
+                  + p.getContent().replaceAll("[\\r\\n]+", " ")
+          );
+        } else if (contentFormat.equals("HTML")) {
+          articleTitleAndContent.set(p.getDisplayContent().replaceAll("[\\r\\n\\t]+", " "));
+        } else if (contentFormat.equals("WIKI")) {
+          articleTitleAndContent.set(
+              p.getWikiMarkup().replaceAll("[\\r\\n\\t]+", " ") +
+              " {{Wiki Title|" + p.getTitle() + "}}" +
+              " {{Wiki Page Id|" + p.getDocid() + "}}"
+          );
+        }
+
 
         context.write(articleId, articleTitleAndContent);
       } else {
@@ -94,6 +108,8 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
   private static final String INPUT_OPTION = "input";
   private static final String OUTPUT_OPTION = "output";
   private static final String LANGUAGE_OPTION = "wiki_language";
+  private static final String CONTENT_FORMAT_OPTION = "content_format";
+
 
   @SuppressWarnings("static-access")
   @Override
@@ -105,6 +121,8 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
         .withDescription("output path").create(OUTPUT_OPTION));
     options.addOption(OptionBuilder.withArgName("en|sv|nl|de|fr|ru|it|es|vi|pl|ja|pt|zh|uk|ca|fa|no|fi|id|ar|sr|ko|hi|zh_yue|cs|tr").hasArg()
         .withDescription("two-letter or six-letter language code").create(LANGUAGE_OPTION));
+    options.addOption(OptionBuilder.withArgName("TEXT|HTML|WIKI").hasArg()
+        .withDescription("Output Content Type TEXT, HTML, WIKI").create(CONTENT_FORMAT_OPTION));
 
     CommandLine cmdline;
     CommandLineParser parser = new GnuParser();
@@ -131,13 +149,25 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
       }
     }
 
+    String contentFormat = "TEXT"; // Assume "TEXT" by default.
+    if (cmdline.hasOption(CONTENT_FORMAT_OPTION)) {
+      contentFormat = cmdline.getOptionValue(CONTENT_FORMAT_OPTION);
+      if (!contentFormat.equals("TEXT") &&
+          !contentFormat.equals("HTML") &&
+          !contentFormat.equals("WIKI")) {
+        System.err.println("Error: \"" + contentFormat + "\" unknown content type!");
+        return -1;
+      }
+    }
+
     String inputPath = cmdline.getOptionValue(INPUT_OPTION);
     String outputPath = cmdline.getOptionValue(OUTPUT_OPTION);
 
     LOG.info("Tool name: " + this.getClass().getName());
     LOG.info(" - XML dump file: " + inputPath);
-    LOG.info(" - output path: " + outputPath);
-    LOG.info(" - language: " + language);
+    LOG.info(" - output path  : " + outputPath);
+    LOG.info(" - language     : " + language);
+    LOG.info(" - content_type : " + contentFormat);
 
     Job job = Job.getInstance(getConf());
     job.setJarByClass(DumpWikipediaToPlainText.class);
@@ -152,7 +182,9 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
     if (language != null) {
       job.getConfiguration().set("wiki.language", language);
     }
-
+    if (contentFormat != null) {
+      job.getConfiguration().set("wiki.content_format", contentFormat);
+    }
     job.setInputFormatClass(WikipediaPageInputFormat.class);
     job.setOutputFormatClass(TextOutputFormat.class);
 
@@ -175,3 +207,20 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
     ToolRunner.run(new DumpWikipediaToPlainText(), args);
   }
 }
+
+/**
+ Example of how to run this utility:
+
+ ssh <herever lib is >
+ cd ~/test_lib_cloud9/
+
+ LANGUAGE=en
+ hadoop jar cloud9-1.5.0-klout.jar \
+   edu.umd.cloud9.collection.wikipedia.DumpWikipediaToPlainText \
+   -libjars bliki-core-3.0.16.jar,commons-lang3-3.1jarBAK,commons-lang3-3.2.jar \
+   -input /data/prod/inputs/wikipedia/20150716/xmldump/${LANGUAGE}wiki-latest-pages-articles.xml \
+   -output /data/hive/research/test_wiki_text/20150716/${LANGUAGE} \
+   -wiki_language $LANGUAGE \
+   -content_format=WIKI
+
+ */
