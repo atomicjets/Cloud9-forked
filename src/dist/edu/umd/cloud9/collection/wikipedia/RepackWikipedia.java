@@ -71,6 +71,8 @@ public class RepackWikipedia extends Configured implements Tool {
 
         docnoMapping.loadMapping(p, fs);
       } catch (Exception e) {
+        LOG.info("Failed in setup:" + e.getMessage());
+        e.printStackTrace();
         throw new RuntimeException("Error loading docno mapping data file!");
       }
     }

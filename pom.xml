@@ -120,7 +120,18 @@
       <version>1.2</version>
       <optional>true</optional>
     </dependency>
+      <dependency>
+          <groupId>javax.annotation</groupId>
+          <artifactId>javax.annotation-api</artifactId>
+          <version>1.2</version>
+      </dependency>
+      <dependency>
+          <groupId>com.google.code.findbugs</groupId>
+          <artifactId>jsr305</artifactId>
+          <version>3.0.0</version>
+      </dependency>
     <dependency>
+
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
       <version>3.2.1</version>
@@ -174,6 +185,7 @@
       <version>4.01</version>
       <optional>true</optional>
     </dependency>
+
     <dependency>
       <groupId>net.sf.jung</groupId>
       <artifactId>jung-api</artifactId>
