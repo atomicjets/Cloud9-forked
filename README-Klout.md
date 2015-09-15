@@ -18,3 +18,19 @@ This is temporary ^^, no need once https://github.com/klout/code/pull/540 is mer
 
 
 NOTE: Build using Java 1.6 since we were having issues with 1.7. Built on sci1 box since it has the right java version for compiling this jar.
+
+
+```
+ssh <herever lib is >
+cd ~/test_lib_cloud9/
+
+ LANGUAGE=en
+ hadoop jar cloud9-1.5.0-klout.jar \
+   edu.umd.cloud9.collection.wikipedia.DumpWikipediaToPlainText \
+   -libjars bliki-core-3.0.16.jar,commons-lang3-3.1jarBAK,commons-lang3-3.2.jar \
+   -input /data/prod/inputs/wikipedia/20150716/xmldump/${LANGUAGE}wiki-latest-pages-articles.xml \
+   -output /data/hive/research/test_wiki_text/20150716/${LANGUAGE} \
+   -wiki_language $LANGUAGE \
+   -content_format=WIKI
+
+```
