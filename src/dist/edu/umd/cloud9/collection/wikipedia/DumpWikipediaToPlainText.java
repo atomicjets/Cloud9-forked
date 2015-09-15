@@ -174,7 +174,7 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
     Configuration conf = getConf();
     Job job = Job.getInstance(conf);
     job.setJarByClass(DumpWikipediaToPlainText.class);
-    job.setJobName(String.format("DumpWikipediaToPlainText[%s: %s, %s: %s, %s: %s]",
+    job.setJobName(String.format("DumpWikipediaToPlainText[%s: %s, %s: %s, %s: %s, %s: %s]",
         INPUT_OPTION, inputPath,
         OUTPUT_OPTION, outputPath,
         LANGUAGE_OPTION, language,
@@ -226,12 +226,12 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
  ssh klout@sci1
  cd /home/research/lib
 
- LANGUAGE=en
+ LANGUAGE=de
  hadoop jar cloud9-1.5.0-klout.jar \
    edu.umd.cloud9.collection.wikipedia.DumpWikipediaToPlainText \
    -libjars bliki-core-3.0.16.jar,commons-lang3-3.1jarBAK,commons-lang3-3.2.jar \
    -input /data/prod/inputs/wikipedia/20150716/xmldump/${LANGUAGE}wiki-latest-pages-articles.xml \
    -output /data/hive/research/test_wiki_text/20150716/${LANGUAGE} \
    -wiki_language $LANGUAGE \
-   -content_format=WIKI
+   -content_format WIKI
  */
