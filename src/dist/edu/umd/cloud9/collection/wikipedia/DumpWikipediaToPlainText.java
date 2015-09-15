@@ -174,8 +174,11 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
     Configuration conf = getConf();
     Job job = Job.getInstance(conf);
     job.setJarByClass(DumpWikipediaToPlainText.class);
-    job.setJobName(String.format("DumpWikipediaToPlainText[%s: %s, %s: %s, %s: %s]", INPUT_OPTION,
-        inputPath, OUTPUT_OPTION, outputPath, LANGUAGE_OPTION, language));
+    job.setJobName(String.format("DumpWikipediaToPlainText[%s: %s, %s: %s, %s: %s]",
+        INPUT_OPTION, inputPath,
+        OUTPUT_OPTION, outputPath,
+        LANGUAGE_OPTION, language,
+        CONTENT_FORMAT_OPTION, contentFormat));
 
     job.setNumReduceTasks(0);
 
