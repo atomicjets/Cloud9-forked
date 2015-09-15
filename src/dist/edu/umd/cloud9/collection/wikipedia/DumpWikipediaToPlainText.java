@@ -215,7 +215,6 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
 }
 
 /**
-<<<<<<< HEAD
  Example of how to run this utility:
 
  ssh <herever lib is >
