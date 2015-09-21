@@ -28,6 +28,9 @@
     <fileset dir="${lib.dir}/" includes="bliki*.jar"/>
   </path>
 
+  <property name="ant.build.javac.source" value="1.6"/>
+  <property name="ant.build.javac.target" value="1.6"/>
+
   <property name="maven.ant.task.version" value="2.1.2"/>
   <property name="maven.jar.dir" value="${basedir}/${lib.dir}"/>
   <property name="maven.jar.file" value="${maven.jar.dir}/maven.jar"/>
