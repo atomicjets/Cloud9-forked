@@ -24,7 +24,7 @@ import edu.umd.cloud9.collection.wikipedia.WikipediaPage;
 
 /**
  * An German page from Wikipedia.
- * 
+ *
  * @author Peter Exner
  * @author Ferhan Ture
  */
@@ -62,7 +62,7 @@ public class GermanWikipediaPage extends WikipediaPage {
     start = s.indexOf(XML_START_TAG_NAMESPACE);
     end = s.indexOf(XML_END_TAG_NAMESPACE);
     this.isArticle = s.substring(start + 4, end).trim().equals("0");
-    
+
     // parse out the document id
     start = s.indexOf(XML_START_TAG_ID);
     end = s.indexOf(XML_END_TAG_ID);
@@ -79,11 +79,11 @@ public class GermanWikipediaPage extends WikipediaPage {
     this.isDisambig = matcher.find();
     this.disambPattern = disambPattern;
     this.isRedirect = s.substring(this.textStart + XML_START_TAG_TEXT.length(), this.textStart + XML_START_TAG_TEXT.length() + IDENTIFIER_REDIRECTION_UPPERCASE.length()).compareTo(IDENTIFIER_REDIRECTION_UPPERCASE) == 0 ||
-                      s.substring(this.textStart + XML_START_TAG_TEXT.length(), this.textStart + XML_START_TAG_TEXT.length() + IDENTIFIER_REDIRECTION_LOWERCASE.length()).compareTo(IDENTIFIER_REDIRECTION_LOWERCASE) == 0 ||
-                      s.substring(this.textStart + XML_START_TAG_TEXT.length(), this.textStart + XML_START_TAG_TEXT.length() + IDENTIFIER_REDIRECTION_UPPERCASE_DE.length()).compareTo(IDENTIFIER_REDIRECTION_UPPERCASE_DE) == 0 ||
-                      s.substring(this.textStart + XML_START_TAG_TEXT.length(), this.textStart + XML_START_TAG_TEXT.length() + IDENTIFIER_REDIRECTION_LOWERCASE_DE.length()).compareTo(IDENTIFIER_REDIRECTION_LOWERCASE_DE) == 0 ||
-                      s.substring(this.textStart + XML_START_TAG_TEXT.length(), this.textStart + XML_START_TAG_TEXT.length() + IDENTIFIER_REDIRECTION_CAPITALIZED_DE.length()).compareTo(IDENTIFIER_REDIRECTION_CAPITALIZED_DE) == 0;
-    this.isStub = s.indexOf(IDENTIFIER_STUB_TEMPLATE, this.textStart) != -1 || 
-                  s.indexOf(IDENTIFIER_STUB_WIKIPEDIA_NAMESPACE) != -1;
+        s.substring(this.textStart + XML_START_TAG_TEXT.length(), this.textStart + XML_START_TAG_TEXT.length() + IDENTIFIER_REDIRECTION_LOWERCASE.length()).compareTo(IDENTIFIER_REDIRECTION_LOWERCASE) == 0 ||
+        s.substring(this.textStart + XML_START_TAG_TEXT.length(), this.textStart + XML_START_TAG_TEXT.length() + IDENTIFIER_REDIRECTION_UPPERCASE_DE.length()).compareTo(IDENTIFIER_REDIRECTION_UPPERCASE_DE) == 0 ||
+        s.substring(this.textStart + XML_START_TAG_TEXT.length(), this.textStart + XML_START_TAG_TEXT.length() + IDENTIFIER_REDIRECTION_LOWERCASE_DE.length()).compareTo(IDENTIFIER_REDIRECTION_LOWERCASE_DE) == 0 ||
+        s.substring(this.textStart + XML_START_TAG_TEXT.length(), this.textStart + XML_START_TAG_TEXT.length() + IDENTIFIER_REDIRECTION_CAPITALIZED_DE.length()).compareTo(IDENTIFIER_REDIRECTION_CAPITALIZED_DE) == 0;
+    this.isStub = s.indexOf(IDENTIFIER_STUB_TEMPLATE, this.textStart) != -1 ||
+        s.indexOf(IDENTIFIER_STUB_WIKIPEDIA_NAMESPACE) != -1;
   }
 }
