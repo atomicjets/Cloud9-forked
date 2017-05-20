@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import edu.umd.cloud9.collection.wikipedia.WikipediaPage;
-import org.glassfish.grizzly.utils.ArraySet;
 
 /**
  * A Generic page from Wikipedia.
