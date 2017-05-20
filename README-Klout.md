@@ -9,7 +9,7 @@ Instructions for building the Klout Cloud9 jar:
 2. cd ~/dev/Cloud9-forked/
 3. git pull -r
 4. ant clean; ant
-5. sudo cp dist/cloud9-1.5.0-klout.jar /home/research/lib/
+5. sudo cp dist/cloud9-1.6.0-klout.jar /home/research/lib/
 ```
 Then upload to Maven manually http://maven-repo.klout:8081/artifactory/
 
