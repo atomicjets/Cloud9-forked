@@ -17,12 +17,14 @@
 package edu.umd.cloud9.collection.wikipedia.language;
 
 import java.lang.String;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import edu.umd.cloud9.collection.wikipedia.WikipediaPage;
+import org.glassfish.grizzly.utils.ArraySet;
 
 /**
  * A Generic page from Wikipedia.
@@ -69,6 +71,7 @@ public class GenericWikipediaPage extends WikipediaPage {
     languageCode_ = languageCode;
 
     // Add acceptable redirects.
+    redirectIndentifiers_ = new HashSet<String>();
     for (String identifier : redirectIndentifiers) {
       redirectIndentifiers_.add(identifier.toLowerCase().trim());
     }
