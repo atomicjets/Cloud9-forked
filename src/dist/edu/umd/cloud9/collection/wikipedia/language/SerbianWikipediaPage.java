@@ -16,66 +16,24 @@
 
 package edu.umd.cloud9.collection.wikipedia.language;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.commons.lang.StringEscapeUtils;
-import edu.umd.cloud9.collection.wikipedia.WikipediaPage;
-
 /**
- * A Serbian page from Wikipedia.
+ * A Swedish page from Wikipedia.
  *
  * @author Gaurav Ragtah
+ * @author Nemanja Spasojevic
  */
-public class SerbianWikipediaPage extends WikipediaPage {
+public class SerbianWikipediaPage extends GenericWikipediaPage {
   /**
    * Language dependent identifiers of disambiguation, redirection, and stub pages.
    */
-  private static final String IDENTIFIER_REDIRECTION_UPPERCASE = "#REDIRECT";
-  private static final String IDENTIFIER_REDIRECTION_LOWERCASE = "#redirect";
-  private static final String IDENTIFIER_STUB_TEMPLATE = "stub}}";
-  private static final String IDENTIFIER_STUB_WIKIPEDIA_NAMESPACE = "Wikipedia:Stub";
-  protected static final Pattern DISAMB_PATTERN = Pattern.compile("\\{\\{\u0412\u0438\u0448\u0435\u0437\u043D\u0430\u0447\u043D\u0430 \u043E\u0434\u0440\u0435\u0434\u043D\u0438\u0446\u0430|\u0412\u0437\u043E\\}\\}", Pattern.CASE_INSENSITIVE);
+  private static final String[] LOWER_CASED_REDIRECTS = {"#преусмери"};
+  private static final String DISAMB_PATTERN = "\\{\\{\u0412\u0438\u0448\u0435\u0437\u043D\u0430\u0447\u043D\u0430 \u043E\u0434\u0440\u0435\u0434\u043D\u0438\u0446\u0430|\u0412\u0437\u043E\\}\\}";
   private static final String LANGUAGE_CODE = "sr";
 
   /**
    * Creates an empty <code>SerbianWikipediaPage</code> object.
    */
   public SerbianWikipediaPage() {
-    super();
-  }
-
-  @Override
-  protected void processPage(String s) {
-    this.language = LANGUAGE_CODE;
-
-    // parse out title
-    int start = s.indexOf(XML_START_TAG_TITLE);
-    int end = s.indexOf(XML_END_TAG_TITLE, start);
-    this.title = StringEscapeUtils.unescapeHtml(s.substring(start + 7, end));
-
-    // determine if article belongs to the article namespace
-    start = s.indexOf(XML_START_TAG_NAMESPACE);
-    end = s.indexOf(XML_END_TAG_NAMESPACE);
-    this.isArticle = s.substring(start + 4, end).trim().equals("0");
-
-    // parse out the document id
-    start = s.indexOf(XML_START_TAG_ID);
-    end = s.indexOf(XML_END_TAG_ID);
-    this.mId = s.substring(start + 4, end);
-
-    // parse out actual text of article
-    this.textStart = s.indexOf(XML_START_TAG_TEXT);
-    this.textEnd = s.indexOf(XML_END_TAG_TEXT, this.textStart);
-
-    this.disambPattern = DISAMB_PATTERN;
-
-    // determine if article is a disambiguation, redirection, and/or stub page.
-    Matcher matcher = disambPattern.matcher(page);
-    this.isDisambig = matcher.find();
-    this.isRedirect = s.substring(this.textStart + XML_START_TAG_TEXT.length(), this.textStart + XML_START_TAG_TEXT.length() + IDENTIFIER_REDIRECTION_UPPERCASE.length()).compareTo(IDENTIFIER_REDIRECTION_UPPERCASE) == 0 ||
-        s.substring(this.textStart + XML_START_TAG_TEXT.length(), this.textStart + XML_START_TAG_TEXT.length() + IDENTIFIER_REDIRECTION_LOWERCASE.length()).compareTo(IDENTIFIER_REDIRECTION_LOWERCASE) == 0;
-    this.isStub = s.indexOf(IDENTIFIER_STUB_TEMPLATE, this.textStart) != -1 ||
-        s.indexOf(IDENTIFIER_STUB_WIKIPEDIA_NAMESPACE) != -1;
+    super(LANGUAGE_CODE, LOWER_CASED_REDIRECTS,DISAMB_PATTERN);
   }
 }

@@ -17,25 +17,22 @@
 package edu.umd.cloud9.collection.wikipedia.language;
 
 /**
- * A Hindi page from Wikipedia.
+ * A Swedish page from Wikipedia.
  *
- * @author Gaurav Ragtah
  * @author Nemanja Spasojevic
  */
-public class HindiWikipediaPage extends GenericWikipediaPage {
+public class SlovakWikipediaPage extends GenericWikipediaPage {
   /**
    * Language dependent identifiers of disambiguation, redirection, and stub pages.
    */
-  private static final String[] LOWER_CASED_REDIRECTS = {
-      "#\u092A\u0941\u0928\u0930\u094D\u092A\u094D\u0930\u0947\u0937\u093F\u0924",
-      "#\u0905\u0928\u0941\u092A\u094D\u0930\u0947\u0937\u093F\u0924"};
-  private static final String DISAMB_PATTERN = "\\{\\{\u092C\u0939\u0941\u0935\u093F\u0915\u0932\u094D\u092A\u0940 \u0936\u092C\u094D\u0926\\}\\}";
-  private static final String LANGUAGE_CODE = "hi";
+  private static final String[] LOWER_CASED_REDIRECTS = {"#presmeruj"};
+  private static final String DISAMB_PATTERN = NO_DISAMBIGUATION_DEFINED;
+  private static final String LANGUAGE_CODE = "sk";
 
   /**
-   * Creates an empty <code>HindiWikipediaPage</code> object.
+   * Creates an empty <code>SlovakWikipediaPage</code> object.
    */
-  public HindiWikipediaPage() {
-    super(LANGUAGE_CODE, LOWER_CASED_REDIRECTS,DISAMB_PATTERN);
+  public SlovakWikipediaPage() {
+    super(LANGUAGE_CODE, LOWER_CASED_REDIRECTS, DISAMB_PATTERN);
   }
 }
