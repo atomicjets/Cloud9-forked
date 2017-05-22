@@ -17,25 +17,24 @@
 package edu.umd.cloud9.collection.wikipedia.language;
 
 /**
- * A Hindi page from Wikipedia.
+ * A Swedish page from Wikipedia.
  *
- * @author Gaurav Ragtah
  * @author Nemanja Spasojevic
  */
-public class HindiWikipediaPage extends GenericWikipediaPage {
+public class ThaiWikipediaPage extends GenericWikipediaPage {
   /**
    * Language dependent identifiers of disambiguation, redirection, and stub pages.
    */
-  private static final String[] LOWER_CASED_REDIRECTS = {
-      "#\u092A\u0941\u0928\u0930\u094D\u092A\u094D\u0930\u0947\u0937\u093F\u0924",
-      "#\u0905\u0928\u0941\u092A\u094D\u0930\u0947\u0937\u093F\u0924"};
-  private static final String DISAMB_PATTERN = "\\{\\{\u092C\u0939\u0941\u0935\u093F\u0915\u0932\u094D\u092A\u0940 \u0936\u092C\u094D\u0926\\}\\}";
-  private static final String LANGUAGE_CODE = "hi";
+  private static final String[] LOWER_CASED_REDIRECTS = {"#เปลี่ยนทาง"};
+  private static final String DISAMB_PATTERN = "\\{\\{\u0E04\u0E27\u0E32\u0E21\u0E2B\u0E21\u0E32\u0E22\u0E2D\u0E37\u0E48\u0E19|" +
+      "\u0E02\u0E49\u0E2D\u0E04\u0E27\u0E32\u0E21\u0E41\u0E01\u0E49\u0E01\u0E33\u0E01\u0E27\u0E21\\}\\}";
+
+  private static final String LANGUAGE_CODE = "th";
 
   /**
-   * Creates an empty <code>HindiWikipediaPage</code> object.
+   * Creates an empty <code>ThaiWikipediaPage</code> object.
    */
-  public HindiWikipediaPage() {
-    super(LANGUAGE_CODE, LOWER_CASED_REDIRECTS,DISAMB_PATTERN);
+  public ThaiWikipediaPage() {
+    super(LANGUAGE_CODE, LOWER_CASED_REDIRECTS, DISAMB_PATTERN);
   }
 }
