@@ -81,7 +81,7 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
 
         System.out.println("Processing : " + p.getDocid() +  " via " + contentFormat);
         articleId.set(p.getDocid());
-        if (contentFormat == null || contentFormat.equals("HTML")) {
+        if (contentFormat == null || contentFormat.equals("TEXT")) {
           articleTitleAndContent.set(
               p.getTitle().replaceAll("[\\r\\n]+", " ")
                   + "\t"
@@ -216,21 +216,14 @@ public class DumpWikipediaToPlainText extends Configured implements Tool {
 
 /**
  Example of how to run this utility:
-
  ssh <herever lib is >
  cd ~/test_lib_cloud9/
-
- scp thunder@jobs-aa-sched1:~/thunder/bin/scripts/r_wikipedia.sh klout@sci1:~/bin/
-
- ssh klout@sci1
- cd /home/research/lib
-
  LANGUAGE=de
  hadoop jar cloud9-1.5.0-klout.jar \
-   edu.umd.cloud9.collection.wikipedia.DumpWikipediaToPlainText \
-   -libjars bliki-core-3.0.16.jar,commons-lang3-3.1jarBAK,commons-lang3-3.2.jar \
-   -input /data/prod/inputs/wikipedia/20150716/xmldump/${LANGUAGE}wiki-latest-pages-articles.xml \
-   -output /data/hive/research/test_wiki_text/20150716/${LANGUAGE} \
-   -wiki_language $LANGUAGE \
-   -content_format WIKI
+ edu.umd.cloud9.collection.wikipedia.DumpWikipediaToPlainText \
+ -libjars bliki-core-3.0.16.jar,commons-lang3-3.1jarBAK,commons-lang3-3.2.jar \
+ -input /data/prod/inputs/wikipedia/20150716/xmldump/${LANGUAGE}wiki-latest-pages-articles.xml \
+ -output /data/hive/research/test_wiki_text/20150716/${LANGUAGE} \
+ -wiki_language $LANGUAGE \
+ -content_format WIKI
  */
