@@ -1,3 +1,10 @@
+Version 1.8.0
+=============
+January 1, 2018
+
++ Support "ar", "be", "bg", "ca", "ceb", "cs", "de", "el", "en", "es", "fa", "fi", "fr", "gl", "he", "hi", "hr", "hu", "hy", "id", "it", "ja", "ka", "ko", "nl", "no", "pl", "pt", "ru", "sh", "simple", "sk", "sl", "sr", "sv", "th", "tr", "uk", "ur", "vi", "war", "zh", "zh_yue"
++ edu.umd.cloud9.collection.wikipedia.DumpWikipediaToPlainText support wiki markup content '-content_format WIKI'. Convenient for  builing Densely Annotated Wikipedia Texts 
+
 Version 1.5.0
 =============
 November 24, 2013
